@@ -8,77 +8,86 @@ import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
 import uc.seng301.wordleapp.assignment4.dictionary.DictionaryQuery;
 import uc.seng301.wordleapp.assignment4.dictionary.DictionaryResponse;
+import uc.seng301.wordleapp.assignment4.game.ColourCoder;
+import uc.seng301.wordleapp.assignment4.game.Wordle;
+import uc.seng301.wordleapp.assignment4.guesser.Guess;
+import uc.seng301.wordleapp.assignment4.guesser.GuessImpl;
+import uc.seng301.wordleapp.assignment4.guesser.ManualGuesser;
 import uc.seng301.wordleapp.assignment4.model.User;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Dictionary;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ManualGuessingFeature {
-    private List<String> guesses;
     private int numOfGuesses;
-    private DictionaryQuery mockDictionaryQuery;
+    private ManualGuesser manualGuesser;
+    private Scanner input;
+    private Stack<Guess> guesses;
+    private ColourCoder colourCoder;
+    private String userInput;
+    private Guess userGuess;
+    private Wordle wordle;
+    private Guess known;
 
 
     @Before
     public void setup() {
-        mockDictionaryQuery = Mockito.mock(DictionaryQuery.class);
-        guesses = new ArrayList<String>();
+        input = Mockito.mock(Scanner.class);
+        userInput = "These";
         numOfGuesses = 0;
     }
 
     @Given("I am playing with the manual guesser")
     public void i_am_playing_with_the_manual_guesser() {
-        Pattern pattern = Pattern.compile("SOMEWORDS");
-        guesses.add("");
-        numOfGuesses += 1;
+        wordle = new Wordle("Goals");
+        userGuess = new GuessImpl( "These", wordle);
+        manualGuesser = new ManualGuesser(wordle, input);
     }
 
     @When("I make a guess")
     public void i_make_a_guess() {
-        mockDictionaryQuery.guessWord("which");
-        Assertions.assertEquals(1, numOfGuesses);
+        Mockito.when(input.nextLine()).thenReturn(userInput);
+        known = manualGuesser.getGuess();
+        guesses = manualGuesser.getGuesses();
+        numOfGuesses = manualGuesser.getNumGuesses();
+
+        Assertions.assertEquals(userInput, known.getProposition());
     }
 
     @Then("The guess count is updated correctly")
     public void the_guess_count_is_updated_correctly() {
-        mockDictionaryQuery.guessWord("which");
         Assertions.assertEquals(1, numOfGuesses);
-
-        mockDictionaryQuery.guessWord("other");
-        Assertions.assertEquals(2, numOfGuesses);
     }
 
     @Then("The Guess is added to the stack")
     public void the_guess_is_added_to_the_stack() {
-        // TODO
+        Assertions.assertEquals(userGuess.getProposition(), guesses.get(0).getProposition());
     }
 
     @When("I make a guess {string}")
     public void i_make_a_guess(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        userInput = string;
+        Mockito.when(input.nextLine()).thenReturn(userInput).thenReturn("!q");
+
+        known = manualGuesser.getGuess();
+        numOfGuesses = manualGuesser.getNumGuesses();
+        guesses = manualGuesser.getGuesses();
     }
 
     @Then("I am not allowed to make the guess")
     public void i_am_not_allowed_to_make_the_guess() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        Assertions.assertEquals(null, known);
     }
 
     @Then("The guess count is not changed")
     public void the_guess_count_is_not_changed() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        Assertions.assertEquals(0, numOfGuesses);
     }
 
     @Then("The Guess is not added to the stack")
     public void the_guess_is_not_added_to_the_stack() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        Assertions.assertEquals(0, guesses.size());
     }
 
 }
