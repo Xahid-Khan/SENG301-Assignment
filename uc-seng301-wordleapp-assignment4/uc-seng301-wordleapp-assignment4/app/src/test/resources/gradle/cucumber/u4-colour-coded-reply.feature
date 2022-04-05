@@ -1,12 +1,12 @@
 Feature: U4 - Colour Coded reply
-  Scenario: AC1 - A correct guess will return all letters in green
-    Given I am playing the game
-    When I make a valid guess
-    Then Every letter of my word is coloured green
+  Scenario: AC1 - While playing the game, if player's guess is correct then it will return all letters in green
+    Given Player makes a guess
+    When The guess made is valid
+    Then The whole word is coloured green
 
-  Scenario: AC2 - I am playing the game
-    Given I am playing the game
-    When When Player guess is not correct
-    Then correctly guessed and placed letters are coloured green
-    Then correctly guessed but not placed letters are coloured yellow
-    Then Incorrectly guessed letters are coloured gray
+  Scenario: AC2 - While playing the game, if player's guess is incorrect then it will return Green, Yellow, and Gray coloured letters
+    Given Player makes a guess
+    When Guess is unsuccessful but some letters of the guess are in the solution
+    Then letters in solution and are in right place are coloured green
+    Then letters in solution and are not in right place are coloured yellow
+    Then letters not in solution are coloured gray

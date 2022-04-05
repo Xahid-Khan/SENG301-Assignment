@@ -6,18 +6,12 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
-import uc.seng301.wordleapp.assignment4.dictionary.DictionaryQuery;
-import uc.seng301.wordleapp.assignment4.dictionary.DictionaryResponse;
 import uc.seng301.wordleapp.assignment4.game.ColourCoder;
 import uc.seng301.wordleapp.assignment4.game.Wordle;
 import uc.seng301.wordleapp.assignment4.guesser.Guess;
 import uc.seng301.wordleapp.assignment4.guesser.GuessImpl;
 import uc.seng301.wordleapp.assignment4.guesser.ManualGuesser;
-import uc.seng301.wordleapp.assignment4.model.User;
-
 import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class ManualGuessingFeature {
     private int numOfGuesses;
