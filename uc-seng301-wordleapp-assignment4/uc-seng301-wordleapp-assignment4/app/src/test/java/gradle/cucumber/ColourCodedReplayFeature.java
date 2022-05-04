@@ -77,4 +77,5 @@ public class ColourCodedReplayFeature {
     public void letters_not_in_solution_are_coloured_gray() {
         Assertions.assertEquals(incorrect.toString(), guess);
     }
+
 }

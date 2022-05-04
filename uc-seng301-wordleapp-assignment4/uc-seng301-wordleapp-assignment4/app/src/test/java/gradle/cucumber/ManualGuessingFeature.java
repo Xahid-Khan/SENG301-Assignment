@@ -45,7 +45,9 @@ public class ManualGuessingFeature {
         known = manualGuesser.getGuess();
         guesses = manualGuesser.getGuesses();
         numOfGuesses = manualGuesser.getNumGuesses();
-
+        Assertions.assertNotNull(known);
+        Assertions.assertNotNull(guesses);
+        Assertions.assertNotNull(numOfGuesses);
         Assertions.assertEquals(userInput, known.getProposition());
     }
 
@@ -67,6 +69,10 @@ public class ManualGuessingFeature {
         known = manualGuesser.getGuess();
         numOfGuesses = manualGuesser.getNumGuesses();
         guesses = manualGuesser.getGuesses();
+        Assertions.assertNull(known);
+        Assertions.assertNotNull(numOfGuesses);
+        Assertions.assertNotNull(guesses);
+
     }
 
     @Then("I am not allowed to make the guess")
